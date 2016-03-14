@@ -1,0 +1,4 @@
+Edit caption of both BINARY plugins
+Lic Headers in2 binaries
+clear XLAM sheets ;-)
+Write down limitations

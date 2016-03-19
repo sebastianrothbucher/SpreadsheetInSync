@@ -25,10 +25,6 @@ Set objFrame=objDocument.getCurrentController().Frame
 msgbox "0 - Prep: new database"
 WinHttpReq.Open "DELETE", "http://localhost:5984/regressiontest", false
 WinHttpReq.Send 
-if not instr(WinHttpReq.ResponseText, """ok"":true")>0 then
-	msgbox WinHttpReq.ResponseText
-        WScript.Quit
-end if
 WinHttpReq.Open "PUT", "http://localhost:5984/regressiontest", false
 WinHttpReq.Send 
 if not instr(WinHttpReq.ResponseText, """ok"":true")>0 then
@@ -61,11 +57,12 @@ objDocument.getCurrentController().ActiveSheet.getCellRangeByName("B3").getCellB
 
 msgbox "3 - start replication and check"
 ' executeDispatch blocks forever (because of the wait loop) - so we have to start via menu (but we can wait for return)
+' this is GERMAN layout ;-)
 WshShell.SendKeys "%x"
 WScript.Sleep 50
 WshShell.SendKeys "d"
 WScript.Sleep 50
-WshShell.SendKeys "E"
+WshShell.SendKeys "S"
 WScript.Sleep 50
 WshShell.SendKeys "S"
 WScript.Sleep 50

@@ -1,6 +1,27 @@
 # SpreadsheetInSync
 Real-time collaboration in/between two spreadsheet applications plus web interface with CouchDB (or Cloudant)
 
+## What can you do with it?
+(to come)
+
+## Installing and first steps
+
+### OpenOffice.org Calc (OOo)
+(to come)
+
+### Excel 
+(to come)
+
+## Web view
+(to come)
+
+### Installing directly
+
+### Installing via install DB
+
+### Using a Login database
+(to come)
+
 ## Known limitations / things 2 keep in mind
 (although you're using it at your own risk anyway)
 - requires a recheck of the sheet after inserting / deleting rows or colums
@@ -26,7 +47,9 @@ Real-time collaboration in/between two spreadsheet applications plus web interfa
 - filtering does not span several cells of a row
 - filtering can not contain comparison operators or be limited to certain cols
 - there might not always be feedback on success of a change
+- the Excel version does not color changes (yet)
+- when using a separate DB to manage login to a sheet (useful e.g. for mobile), this URL is not shown via menu
 
-
-License: Apache License 2.0
+## License
+all code is licensed under: Apache License 2.0 (see LICENSE)
 

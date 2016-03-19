@@ -18,9 +18,9 @@ if [ ! -f angular/angular.js ]; then
 	echo "need angular/angular.js"
 	curl -X GET -o angular/angular.js https://code.angularjs.org/1.2.15/angular.js
 fi
-if [ ! -f angular/angular-min.js ]; then
-	echo "need angular/angular-min.js"
-	curl -X GET -o angular/angular-min.js https://code.angularjs.org/1.2.15/angular-min.js
+if [ ! -f angular/angular.min.js ]; then
+	echo "need angular/angular.min.js"
+	curl -X GET -o angular/angular.min.js https://code.angularjs.org/1.2.15/angular.min.js
 fi
 if [ ! -f angular/angular-mocks.js ]; then
 	echo "need angular/angular-mocks.js"

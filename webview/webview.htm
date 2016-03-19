@@ -1,0 +1,142 @@
+<!-- 
+   Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   use this file except in compliance with the License. You may obtain a copy of
+   the License at
+  
+     http://www.apache.org/licenses/LICENSE-2.0
+  
+   Unless required by applicable law or agreed to in writing, software 
+   distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   License for the specific language governing permissions and limitations under
+   the License. 
+-->
+<html ng-app="theplugin">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <style type="text/css">
+    body {
+      font-size: 12px; 
+      font-family: sans-serif;
+      -webkit-text-size-adjust: none;
+    }
+    #topdiv {
+      position: absolute; 
+      padding: 8px; 
+      top: 0;
+      left: 0; 
+      right: 0;
+    }
+    #topdiv button {
+      margin-left: 10px; 
+      margin-right: 10px;
+    }
+    #topdiv a.down {
+      cursor: pointer;
+      font-size: 12px;
+      display: inline-block;
+      line-height: 8px;
+      color: grey;
+      text-align: center;
+      margin-left: 10px;
+      vertical-align: middle;
+      font-weight: bold;
+    }
+    #maindiv {
+      position: absolute; 
+      top: 40px; 
+      left: 8px; 
+      right: 0; 
+      bottom: 40px; 
+      overflow: auto;
+    }
+    #bottomdiv {
+      position: absolute; 
+      padding: 8px; 
+      bottom: 0;
+      left: 0; 
+      right: 0;
+    }
+    table.spreadsheet {
+      border-spacing: 0;
+    }
+    table.spreadsheet td {
+      margin: 0;
+      padding-top: 3px; 
+      padding-bottom: 3px; 
+      padding-left: 5px; 
+      padding-right: 5px; 
+      border-right: 1px solid gray;
+      border-bottom: 1px solid gray;
+      vertical-align: bottom;
+      font-size: 10px;
+      -webkit-text-size-adjust: none;
+    }
+    table.spreadsheet td.coords {
+      text-align: center; 
+      background-color: gray;
+      border-right: 1px solid black;
+      border-bottom: 1px solid black;
+    }
+    table.spreadsheet td.changed {
+      background-color: yellow;
+    }
+    table.spreadsheet td.selected {
+      border-top: 2px solid black; 
+      border-bottom: 3px solid black; 
+      border-left: 2px solid black; 
+      border-right: 3px solid black; 
+      padding-top: 0;
+      padding-bottom: 0;
+      padding-left: 5px; 
+      padding-right: 4px;
+      margin-top: -3px;
+    }
+    table.spreadsheet td.selected::after {
+      content: ' ';
+      display: block;
+      height: 5px;
+      border-right: 5px solid black;
+      width: 100%;
+      margin-top: -4px;
+      margin-left: -1px;
+    }
+    span.tab {
+      display: inline-block;
+      border-top: 1px solid black;
+      border-right: 1px solid black;
+      padding: 3px;
+      margin-right: -1px;
+    }
+    span.tab:first-child {
+      border-left: 1px solid black;
+    }
+    span.tab.seltab {
+      border-top: 0;
+      font-weight: bold;
+    }
+  </style>
+  <script language="javascript" src="../../../../angular/angular-min.js"></script>
+  <script language="javascript" src="webview_controller"></script>
+</head>
+<body ng-controller="SheetController">
+  <div id="topdiv">Filter: <input type="search" ng-model="filter" ng-change="onFilter()" style="width: 40%; min-width: 50px; max-width: 200px; " /><button ng-click="onChangePrompt()">Change cell</button><a class="down" ng-click="onScrollBottom()">|<br />v</a></div>
+  <div id="maindiv">
+    <table class="spreadsheet" rules="all" tabindex="0" ng-keydown="onTableKeyDown($event)" ng-keypress="onTableKeyPress($event)">
+      <tr>
+        <td class="coords">&#160;</td>
+        <td ng-repeat="col in sheetCols" class="coords">{{col}}</td>
+        <td><button ng-click="addCol($event)">+</button></td>
+      </tr>
+      <tr ng-repeat="row in filteredRows">
+        <td class="coords">{{row}}</td>
+        <td ng-repeat="col in sheetCols" class="{{cellstyle(col, row)}}" contentEditable="{{isEditable(col, row)}}" name="{{''+col+''+row}}" ng-click="onCellSelect(col, row, $event)" ng-blur="onEditCellBlur(col, row)">{{cellcontent(col, row)}}</td>
+      </tr>
+      <tr>
+        <td><button ng-click="addRow($event)">+</button></td>
+      </tr>
+    </table>
+  </div>
+  <div id="bottomdiv"><span ng-repeat="sheet in sheets" class="tab {{sheet==sheetName?'seltab':''}}">{{sheet}}</span></div>
+</body>
+</html>

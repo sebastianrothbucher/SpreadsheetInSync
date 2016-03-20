@@ -1,16 +1,53 @@
 # SpreadsheetInSync
-Real-time collaboration in/between two spreadsheet applications plus web interface with CouchDB (or Cloudant)
+Real-time collaboration in/between two spreadsheet applications (Excel and OpenOffice.org Calc) plus web interface with CouchDB (or Cloudant). You keep working in the application you know, and you keep your files - but you have team sync in real time now!
 
 ## What can you do with it?
+The plugin (for Excel and OpenOffice.org Calc) allow parallel work on a spreadsheet with copies simultanously open on several computers. Whatever structure and setup you need to get the job done, you're free to do it!
+
+With the plugin, everyone will see every change instantly and is always up to date. As you keep using files, you always have all the info with you - also to work offline and sync back when you have network connection. 
+
+It's up to you whether to use the Cloud or your own network.
+
+## How it works
 (to come)
 
-## Installing and first steps
+## Installation and first steps
 
 ### OpenOffice.org Calc (OOo)
-(to come)
+First of all, you need a [CouchDB](http://couchdb.apache.org) installation on your machine, your network or the Internet. You can use [Cloudant](http://cloudant.com) but be sure you understand their mechanics of charging - there's limits to what you get for free that also might change. Create a new and empty database in either case to hold your data.
+
+Then, download ''SpreadsheetInSync.oxt'' from [Releases](https://github.com/sebastianrothbucher/SpreadsheetInSync/releases) and double-click to install into the Extension Manager. For every spreadsheet file you create or open after that, you have a 'SpreadsheetInSync' menu below Tools > Add-ons (or Extras > Add-ons for e.g. the German localization). 
+
+Then, choose SpreadsheetInSync > Start. As it's the first time, it will prompt for the database details. Give server name (for Cloudant: 'yourname'.cloudant.com), port (standard for HTTP w/out SSL is 80, standard for HTTPS w/ SSL - the recommended way - is 443) and the name of the database you just created. 
+
+Then (for the first time and any time you come back), it will prompt for username and passwort to CouchDB (for Cloudant it's per se the same credentials you log on to the website). When you run CouchDB in AdminParty w/out further protection (per se not recommended!), leave the password empty.
+
+As soon as you have started, it will watch the database for any changes made by someone else. They will be inserted into the sheet and (for OOo) be marked by a yellow background color that disappears after a few seconds. Likewise, anything you type or change will be replicated up to the database. 
+
+Rechecking the sheet is useful to make sure really all changes are uploaded.
+
+Before closing the file, make sure to stop the replication.
 
 ### Excel 
+First of all, you need a [CouchDB](http://couchdb.apache.org) installation on your machine, your network or the Internet. You can use [Cloudant](http://cloudant.com) but be sure you understand their mechanics of charging - there's limits to what you get for free that also might change. Create a new and empty database in either case to hold your data.
+
+Then, download ''SpreadsheetInSync.xlam'' from [Releases](https://github.com/sebastianrothbucher/SpreadsheetInSync/releases) and copy it into C:\Users\'yourname'\AppData\Roaming\Microsoft\AddIns. Open the Options dialog, choose the Add-ins tab and (on the bottom) 'Go to' manage Excel Add-Ins. A dialog opens where you can check 'Spreadsheetinsync'. You now have a new tab for SpreadsheetInSync.
+
+Then, choose SpreadsheetInSync > Start. As it's the first time, it will prompt for the database details. Give server name (for Cloudant: 'yourname'.cloudant.com), port (standard for HTTP w/out SSL is 80, standard for HTTPS w/ SSL - the recommended way - is 443) and the name of the database you just created. 
+
+Then (for the first time and any time you come back), it will prompt for username and passwort to CouchDB (for Cloudant it's per se the same credentials you log on to the website). When you run CouchDB in AdminParty w/out further protection (per se not recommended!), leave the password empty.
+
+As soon as you have started, it will watch the database for any changes made by someone else. They will be inserted into the sheet. Likewise, anything you type or change will be replicated up to the database. 
+
+Rechecking the sheet is useful to make sure really all changes are uploaded. 
+
+Before closing the file, make sure to stop the replication.
+
+## Working offline
 (to come)
+
+## When you decide to throw out SpreadsheetInSync...
+... which hopefully will never happen: you still have your files (the .xls/.xlsx/.ods files), so you can keep on working with them just like you did before, no harm done, no migration work necessary. 
 
 ## Web view
 (to come)
@@ -20,6 +57,20 @@ Real-time collaboration in/between two spreadsheet applications plus web interfa
 ### Installing via install DB
 
 ### Using a Login database
+(to come)
+
+## Advanced features
+
+### History (OOo only)
+(to come)
+
+### iCal (OOo only)
+(to come)
+
+### Chat (OOo only)
+(to come)
+
+### asana connect (OOo only)
 (to come)
 
 ## Known limitations / things 2 keep in mind

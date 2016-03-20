@@ -16,7 +16,7 @@ It's up to you whether to use the Cloud or your own network.
 ### OpenOffice.org Calc (OOo)
 First of all, you need a [CouchDB](http://couchdb.apache.org) installation on your machine, your network or the Internet. You can use [Cloudant](http://cloudant.com) but be sure you understand their mechanics of charging - there's limits to what you get for free that also might change. Create a new and empty database in either case to hold your data.
 
-Then, download ''SpreadsheetInSync.oxt'' from [Releases](https://github.com/sebastianrothbucher/SpreadsheetInSync/releases) and double-click to install into the Extension Manager. For every spreadsheet file you create or open after that, you have a 'SpreadsheetInSync' menu below Tools > Add-ons (or Extras > Add-ons for e.g. the German localization). 
+Then, download 'SpreadsheetInSync.oxt' from [Releases](https://github.com/sebastianrothbucher/SpreadsheetInSync/releases) and double-click to install into the Extension Manager. For every spreadsheet file you create or open after that, you have a 'SpreadsheetInSync' menu below Tools > Add-ons (or Extras > Add-ons for e.g. the German localization). 
 
 Then, choose SpreadsheetInSync > Start. As it's the first time, it will prompt for the database details. Give server name (for Cloudant: 'yourname'.cloudant.com), port (standard for HTTP w/out SSL is 80, standard for HTTPS w/ SSL - the recommended way - is 443) and the name of the database you just created. 
 
@@ -31,7 +31,7 @@ Before closing the file, make sure to stop the replication.
 ### Excel 
 First of all, you need a [CouchDB](http://couchdb.apache.org) installation on your machine, your network or the Internet. You can use [Cloudant](http://cloudant.com) but be sure you understand their mechanics of charging - there's limits to what you get for free that also might change. Create a new and empty database in either case to hold your data.
 
-Then, download ''SpreadsheetInSync.xlam'' from [Releases](https://github.com/sebastianrothbucher/SpreadsheetInSync/releases) and copy it into C:\Users\'yourname'\AppData\Roaming\Microsoft\AddIns. Open the Options dialog, choose the Add-ins tab and (on the bottom) 'Go to' manage Excel Add-Ins. A dialog opens where you can check 'Spreadsheetinsync'. You now have a new tab for SpreadsheetInSync.
+Then, download 'SpreadsheetInSync.xlam' from [Releases](https://github.com/sebastianrothbucher/SpreadsheetInSync/releases) and copy it into C:\Users\'yourname'\AppData\Roaming\Microsoft\AddIns. Open the Options dialog, choose the Add-ins tab and (on the bottom) 'Go to' manage Excel Add-Ins. A dialog opens where you can check 'Spreadsheetinsync'. You now have a new tab for SpreadsheetInSync.
 
 Then, choose SpreadsheetInSync > Start. As it's the first time, it will prompt for the database details. Give server name (for Cloudant: 'yourname'.cloudant.com), port (standard for HTTP w/out SSL is 80, standard for HTTPS w/ SSL - the recommended way - is 443) and the name of the database you just created. 
 
@@ -50,11 +50,12 @@ Before closing the file, make sure to stop the replication.
 ... which hopefully will never happen: you still have your files (the .xls/.xlsx/.ods files), so you can keep on working with them just like you did before, no harm done, no migration work necessary. 
 
 ## Web view
-(to come)
 
 ### Installing directly
+(to come)
 
 ### Installing via install DB
+(to come)
 
 ### Using a Login database
 (to come)

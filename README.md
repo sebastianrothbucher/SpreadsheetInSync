@@ -8,8 +8,44 @@ With the plugin, everyone will see every change instantly and is always up to da
 
 It's up to you whether to use the Cloud or your own network.
 
+Here's some of what's in 4u: 
+- you're free to create the structure you need, the sheet is yours - literally
+- real offline capability: work offline and sync back later
+- real real-time: changes sync instantly 
+- works in both local network and the Cloud
+- audit trail of each edit
+- just go back to file w/out plugin at any time (no risk of locking yourself in)
+- smart extras like iCal, Chat, Webview
+
+You can use the plugin for things like:
+- agile board / issue tracking
+- organizing an event or conference
+- managing timesheets, contracts and budgets
+- info you need on the road
+- hire shortlist / personal development plans
+- communication plans
+- brainstorming and shortlisting
+- backlog / features / priorization for development
+- purchasing and logistics
+- leads you want to follow up on
+- shift plans
+and, off course: 
+- your personal TODO list
+(and certainly a lot more)
+
 ## How it works
-(to come)
+Basically, there is a plugin extending the OpenOffice.org Calc or Excel that you have. The plugin listens for changes to cells and sends them up to a hub database. Either at once or when you re-connect and recheck/resync the sheet.
+
+So here's the steps: 
+
+<img src="files/howitworks1.png" /> 
+Alice does some work in a spreadsheet which the plugin running. All changes are pushed up to a hub database (CouchDB).
+
+<img src="files/howitworks2.png" />
+Bob and Chris have their copy of the file open with the plugin running...
+
+<img src="files/howitworks3.png" />
+... which makes them get Alice's changes instantly - so everyone is up to date all the time.
 
 ## Installation and first steps
 

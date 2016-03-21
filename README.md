@@ -126,7 +126,12 @@ http://couch.local:80/mysheet/_design/showfkt/_show/htmlout/webview
 To give users a somewhat more convenient way to install the Web view: create a database named 'webview_install' and install the Web view there as described above (don't actually use this DB as a hub DB). Then, choose SpreadsheetInSync > Webview > Install Webview from the menu
 
 ### Using a Login database
-(to come)
+Standard HTTP login becomes unnerving, esp. on mobile phones. You can improve by using a login DB like described in [this Gist](https://gist.github.com/sebastianrothbucher/98615d0aa09eca5674f6#file-login-json)
+
+Effectively, create yet another DB with public access (be sure you understand the implications of it all when being on the public Internet) and point your bookmark to that DB like this: 
+```
+http://couch.local:80/logindb_someext/_design/login/_show/login?redir?/mysheet/_design/showfkt/_show/htmlout/webview
+```
 
 ## Advanced features
 

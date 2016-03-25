@@ -106,7 +106,7 @@ Essentially, this is the generalization of the cases above: As soon as you start
 The Web view is a very simple spreadsheet you can open in the Browser: it runs on the hub database shows the contents you've uploaded there so far. You can also edit cells or filter for rows containing some values. 
 
 Here's a screen of the Web view:
-<img src="files/sreen_web.png" />
+<img src="files/screen_web.png" />
 
 Essentially, you can navigate around using the mouse or cursor keys, you can change a value and filter rows. On Webkit (Chrome / Safari), you can just type like you would do in OOo or Excel. 
 

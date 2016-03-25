@@ -1,5 +1,5 @@
 # SpreadsheetInSync
-Real-time collaboration in/between two spreadsheet applications (Excel and OpenOffice.org Calc) plus web interface with CouchDB (or Cloudant). You keep working in the application you know, and you keep your files - but you have team sync in real time now!
+Real-time collaboration in/between two spreadsheet applications (Excel and OpenOffice.org Calc) plus web interface with CouchDB (or Cloudant). You keep working in the application you know, and you keep your files - but you have team sync in real time now! Essentially, the plugin synchronizes spreadsheets in real-time.
 
 ## What can you do with it?
 The plugin (for Excel and OpenOffice.org Calc) allow parallel work on a spreadsheet with copies simultanously open on several computers. Whatever structure and setup you need to get the job done, you're free to do it!
@@ -105,6 +105,11 @@ Essentially, this is the generalization of the cases above: As soon as you start
 ## Web view
 The Web view is a very simple spreadsheet you can open in the Browser: it runs on the hub database shows the contents you've uploaded there so far. You can also edit cells or filter for rows containing some values. 
 
+Here's a screen of the Web view:
+<img src="files/sreen_web.png" />
+
+Essentially, you can navigate around using the mouse or cursor keys, you can change a value and filter rows. On Webkit (Chrome / Safari), you can just type like you would do in OOo or Excel. 
+
 ### Installing directly
 Once you have a hub database set up, you can install by cloning this repo, pointing your bash to the 'webview' subdirectory and running
 ```
@@ -136,16 +141,18 @@ http://couch.local:80/logindb_someext/_design/login/_show/login?redir?/mysheet/_
 ## Advanced features
 
 ### History (OOo only)
-(to come)
+The History feature shows you all edits made to a cell (in any application) along with who and when.
 
 ### iCal (OOo only)
-(to come)
+This feature allows you to install an iCal stream to the Hub database. Essentially, you have to give two columns (for subject and date) and get a URL to paste into Google Calendar/Outlook/Thunderbird/etc.
 
 ### Chat (OOo only)
-(to come)
+Opens a window where all OOo users can chat. Just enter your line at the bottom and see what others are writing.
 
 ### asana connect (OOo only; experimental)
-(to come)
+It's a quite exprimental (and UI-wise also not very elaborate) feature. Give columns for subject, notes, due date, id, etc. and get all asana tasks (with a certain tag) synced in. Other than CSV import, updates are rather convenient. 
+
+It needs an API key of asana and stores it into your user profile folder. If you get queasy about having such a key around: generate a new one in asana (which voids the saved/old one).
 
 ## Known limitations / things 2 keep in mind
 (although you're using it at your own risk anyway)
@@ -161,6 +168,9 @@ http://couch.local:80/logindb_someext/_design/login/_show/login?redir?/mysheet/_
 - build is currently manual
 - Times displayed in the history might not be timezone-adjusted correctly yet
 - When syncing into unformatted cells, the format might be the (unexpected) default. For instance, dates might show as numbers (which you can change by changing the cell format).
+- Time zones in History might not be correct
+- iCal goes for date only (0am)
+- asana connect does only read at the moment
 
 ### for Web view specifically
 - changed formula results might only show up after recheck of the sheet
@@ -175,6 +185,9 @@ http://couch.local:80/logindb_someext/_design/login/_show/login?redir?/mysheet/_
 - there might not always be feedback on success of a change
 - the Excel version does not color changes (yet)
 - when using a separate DB to manage login to a sheet (useful e.g. for mobile), this URL is not shown via menu
+
+## Developing
+With a hugely proprietary dev env, it's best to download the binaries and start developing from there (before exporting the sources and checking them in).
 
 ## License
 all code is licensed under: Apache License 2.0 (see LICENSE)

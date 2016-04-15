@@ -12,10 +12,11 @@ Here's some of what's in 4u:
 - you're free to create the structure you need, the sheet is yours - literally
 - real offline capability: work offline and sync back later
 - real real-time: changes sync instantly 
+- use Excel ane OpenOffice.org Calc together w/out messing up the format
 - works in both local network and the Cloud
 - audit trail of each edit
 - just go back to file w/out plugin at any time (no risk of locking yourself in)
-- smart extras like iCal, Chat, Web view
+- smart extras like iCal, Chat, Web view (incl. on the go)
 
 You can use the plugin for things like:
 - agile board / issue tracking

@@ -1,8 +1,8 @@
 # SpreadsheetInSync
-Real-time collaboration in/between two spreadsheet applications (Excel and OpenOffice.org Calc) plus web interface with CouchDB (or Cloudant). You keep working in the application you know, and you keep your files - but you have team sync in real time now! Essentially, the plugin synchronizes spreadsheets in real-time.
+Real-time collaboration in/between two spreadsheet applications (Excel and OpenOffice.org Calc) plus web interface to work with the spreadsheet in your browser. Runs with CouchDB (or Cloudant). You keep working in the application you know, and you keep your files - but you have team sync in real time now! Essentially, the plugin synchronizes spreadsheets in real-time.
 
 ## What can you do with it?
-The plugin (for Excel and OpenOffice.org Calc) allow parallel work on a spreadsheet with copies simultanously open on several computers. Whatever structure and setup you need to get the job done, you're free to do it!
+The plugin (for Excel and OpenOffice.org Calc) allows parallel work on a spreadsheet with copies simultanously open on several computers. Whatever structure and setup you need to get the job done, you're free to do it!
 
 With the plugin, everyone will see every change instantly and is always up to date. As you keep using files, you always have all the info with you - also to work offline and sync back when you have network connection. 
 
@@ -16,7 +16,7 @@ Here's some of what's in 4u:
 - works in both local network and the Cloud
 - audit trail of each edit
 - just go back to file w/out plugin at any time (no risk of locking yourself in)
-- smart extras like iCal, Chat, Web view (incl. on the go)
+- smart extras like iCal, Chat, Web view (runs in Desktop and mobile browsers)
 
 You can use the plugin for things like:
 - agile board / issue tracking
@@ -98,13 +98,13 @@ You'll be prompted for database details - and then receive all the content of th
 You'll be prompted for database details - and you can then opt to push all changes "made offline" to the database. If you opt yes, you'll have both in sync. Depending on the size of the sheet, you might generate some traffic and it might take up some time.
 
 ## Working offline
-Essentially, this is the generalization of the cases above: As soon as you start, you'll receive all changes pushed to the hub database while you were away. You'll then be prompted to upload all your changes since disconnecting. As you had the file in the meantime, everything is as usual.
+Essentially, this is the generalization of the cases above: As soon as you start, you'll receive all changes pushed to the hub database while you were away. You'll then be prompted to upload all your changes since disconnecting. As you had the file in the meantime, everything is as usual. Conflicts are detected and you're promted for resolution, so you won't lose data.
 
 ## When you decide to throw out SpreadsheetInSync...
 ... which hopefully will never happen: you still have your files (the .xls/.xlsx/.ods files), so you can keep on working with them just like you did before, no harm done, no migration work necessary. 
 
 ## Web view
-The Web view is a very simple spreadsheet you can open in the Browser: it runs on the hub database shows the contents you've uploaded there so far. You can also edit cells or filter for rows containing some values. 
+The Web view is a very simple spreadsheet you can open in the Browser: it runs on the hub database (served by CouchDB) and shows the contents you've uploaded there so far. You can also edit cells or filter for rows containing certain values. 
 
 Here's a screen of the Web view:
 <img src="files/screen_web.png" />

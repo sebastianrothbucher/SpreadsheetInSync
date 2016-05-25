@@ -105,8 +105,9 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
         }
       }).error(function(data, status){
         if(status!=0){
-          console.error(status+" - "+data);
+          console.error(status+" - "+data); // TODO: visible message? (common handler)
         }
+        // TODO: poll also after a greace period - don't give up on one error
       });
   };
   function pollForUserName(){
@@ -115,7 +116,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
         $scope.userName=(data.userCtx && data.userCtx.name)?data.userCtx.name:"Webview";
       }).error(function(data, status){
         if(status!=0){
-          console.error(status+" - "+data);
+          console.error(status+" - "+data); // TODO: visible message? (common handler)
         }
         $scope.userName="Webview";
       });
@@ -193,7 +194,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
       .success(function(data, status){
       }).error(function(data, status){
         if(status!=0){
-          console.error(status+" - "+data);
+          console.error(status+" - "+data); // TODO: visible message? (common handler)
         }
       });
   };
@@ -246,7 +247,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
     }
   };
   function navigateToSel(){
-    var sel=$scope.selectedCell;
+    var sel=$scope.selectedCell; // TODO: rather prevent two timeouts via $scope.timeoutRunning?
     $timeout(function(){
       if(sel==$scope.selectedCell){
         var elem=$window.document.getElementsByName($scope.selectedCell)[0];

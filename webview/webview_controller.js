@@ -154,17 +154,6 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
       $scope.filteredRows=$scope.sheetRows;
     }
   };
-  function clearEditElem(restoreValue){
-    if($scope.editCell && $scope.isWebkit()){
-      var editElem=$window.document.getElementsByName($scope.editCell)[0];
-      while(editElem.childNodes.length>1){
-        editElem.removeChild(editElem.childNodes[0]);
-      }
-      if(restoreValue){
-        editElem.childNodes[0].nodeValue=restoreValue;
-      }
-    }
-  };
   $scope.onChangePrompt=function(){
     if($scope.selectedCell){
       var oldValue=$scope.sheetData[$scope.selectedCell];
@@ -179,14 +168,13 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
     if($scope.editCell && $scope.isWebkit()){
       //console.log("confirming edit");
       var oldValue=$scope.editBackup?$scope.editBackup:$scope.sheetData[$scope.editCell];
-      var newValue=$window.document.getElementsByName($scope.editCell)[0].innerText;
+      var newValue=$window.document.getElementsByName($scope.editCell+"_edit")[0].innerText;
       if(oldValue!=newValue){
         performUpload($scope.editCell, oldValue, newValue);
       }
       $scope.editBackup=null;
       // (always restore due to backup)
       $scope.sheetData[$scope.editCell]=newValue;
-      clearEditElem();
       $scope.editCell=null;
     }
   };
@@ -213,7 +201,6 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
         $scope.sheetData[$scope.editCell]=$scope.editBackup;
       }
       $scope.editBackup=null;
-      clearEditElem($scope.sheetData[$scope.editCell]);
       $scope.editCell=null;
     }
   };
@@ -230,7 +217,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
         // requeue
         $timeout(function(){
           //console.log("Inserting text");
-          $window.document.getElementsByName($scope.editCell)[0].focus();
+          $window.document.getElementsByName($scope.editCell+"_edit")[0].focus();
         }, 1);
       }else{
         $scope.editCell=null;
@@ -331,7 +318,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
       // requeue
       $timeout(function(){
         //console.log("Inserting text");
-        $window.document.getElementsByName($scope.editCell)[0].focus();
+        $window.document.getElementsByName($scope.editCell+"_edit")[0].focus();
         $window.document.execCommand("insertText", false, String.fromCharCode($event.keyCode));
       }, 1);
     }

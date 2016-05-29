@@ -135,7 +135,7 @@
       </tr>
       <tr ng-repeat="row in filteredRows">
         <td class="coords">{{row}}</td>
-        <td ng-repeat="col in sheetCols" class="{{cellstyle(col, row)}}" contentEditable="{{isEditable(col, row)}}" name="{{''+col+''+row}}" ng-click="onCellSelect(col, row, $event)" ng-blur="onEditCellBlur(col, row)">{{cellcontent(col, row)}}</td>
+        <td ng-repeat="col in sheetCols" name="{{''+col+''+row}}" class="{{cellstyle(col, row)}}" ng-click="onCellSelect(col, row, $event)"><span ng-if="!!isEditable(col, row)" name="{{''+col+''+row+'_edit'}}" contentEditable="true" ng-blur="onEditCellBlur(col, row)">{{cellcontent(col, row)}}</span><span ng-if="!isEditable(col, row)">{{cellcontent(col, row)}}</span></td>
       </tr>
       <tr>
         <td><button ng-click="addRow($event)">+</button></td>

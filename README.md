@@ -180,7 +180,6 @@ It needs an API key of asana and stores it into your user profile folder. If you
 - Web view just displays the first sheet available - yet without the ability to change that
 - Installing the Web view via menu is only possible if you create an installation DB on your own system. Otherwise, you can install via install.sh directly
 - columns that have lots of long text might grow disproportionally large
-- navigating a filtered sheet in cursor keys might still result in the cursor disappearing (as filtered rows are not skipped)
 - filtering does not span several cells of a row
 - filtering can not contain comparison operators or be limited to certain cols
 - there might not always be feedback on success of a change

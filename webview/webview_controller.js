@@ -49,15 +49,20 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
     return col;
   };
   function changeAddr(addr, colDelta, rowDelta){
+    // cols
     var col=addr.match(/[A-Z]+/)[0];
+    var colIndex=$scope.sheetCols.indexOf(col);
+    colIndex+=colDelta;
+    col=$scope.sheetCols[Math.min($scope.sheetCols.length-1, Math.max(0, colIndex))];
+    // row (consider filtering)
     var row=parseInt(addr.match(/[0-9]+/)[0]);
-    // TODO: consider filtering
-    col=numToCol(Math.min(colToNum($scope.sheetCols[$scope.sheetCols.length-1]), Math.max(colToNum($scope.sheetCols[0]), colToNum(col)+colDelta)));
-    row=Math.min($scope.sheetRows[$scope.sheetRows.length-1], Math.max($scope.sheetRows[0], row+rowDelta)); 
+    var rowIndex=$scope.filteredRows.indexOf(row);
+    rowIndex+=rowDelta;
+    row=$scope.filteredRows[Math.min($scope.filteredRows.length-1, Math.max(0, rowIndex))];
     return ""+col+""+row;
   };
   function pollForChanges(){
-    console.log($scope.prevSince);
+    //console.log($scope.prevSince);
     $http({method: "GET", url: "../../../../_changes?since="+$scope.prevSince+"&feed=longpoll&include_docs=true"})
       .success(function(data, status){ 
         var rows=data.results;
@@ -105,9 +110,10 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
         }
       }).error(function(data, status){
         if(status!=0){
-          console.error(status+" - "+data); // TODO: visible message? (common handler)
+          console.error(status+" - "+JSON.stringify(data));
+          $scope.errorMessage="Error pulling data - refresh and try again ("+status+" - "+JSON.stringify(data)+")";
         }
-        // TODO: poll also after a greace period - don't give up on one error
+        // other idea: poll also after a greace period - don't give up on one error (instead of F5-ing)
       });
   };
   function pollForUserName(){
@@ -115,8 +121,9 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
       .success(function(data, status){
         $scope.userName=(data.userCtx && data.userCtx.name)?data.userCtx.name:"Webview";
       }).error(function(data, status){
-        if(status!=0){
-          console.error(status+" - "+data); // TODO: visible message? (common handler)
+        if(status!=0 && status!=401){ // 401=unauth (can be - in local sc)
+          console.error(status+" - "+JSON.stringify(data));
+          $scope.errorMessage="Error pulling user name - refresh and try again ("+status+" - "+JSON.stringify(data)+")";
         }
         $scope.userName="Webview";
       });
@@ -131,7 +138,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
     return true;
   };
   $scope.onFilter=function(){
-    console.log("onFilter");
+    //console.log("onFilter");
     if($scope.filter){
       $scope.filteredRows=[];
       for(var i=0; i<$scope.sheetRows.length; i++){
@@ -170,7 +177,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
   };
   function confirmEdit(){
     if($scope.editCell && $scope.isWebkit()){
-      console.log("confirming edit");
+      //console.log("confirming edit");
       var oldValue=$scope.editBackup?$scope.editBackup:$scope.sheetData[$scope.editCell];
       var newValue=$window.document.getElementsByName($scope.editCell)[0].innerText;
       if(oldValue!=newValue){
@@ -184,7 +191,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
     }
   };
   function performUpload(cell, oldValue, newValue){
-    console.log("Need to upload '"+cell+"': '"+oldValue+"' != '"+newValue+"' for user '"+$scope.userName+"'");
+    //console.log("Need to upload '"+cell+"': '"+oldValue+"' != '"+newValue+"' for user '"+$scope.userName+"'");
     $scope.currentUpload=$scope.sheetName+"."+cell;
     var upd={user: $scope.userName, type: "TEXT", value: (""+newValue)};
     if($scope.allSheetData[$scope.sheetName+"."+cell]){
@@ -194,13 +201,14 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
       .success(function(data, status){
       }).error(function(data, status){
         if(status!=0){
-          console.error(status+" - "+data); // TODO: visible message? (common handler)
+          console.error(status+" - "+JSON.stringify(data));
+          $scope.errorMessage="Error updating - refresh and try updating again ("+status+" - "+JSON.stringify(data)+")";
         }
       });
   };
   function discardEdit(){
     if($scope.editCell && $scope.isWebkit()){
-      console.log("discarding edit");
+      //console.log("discarding edit");
       if($scope.editBackup){
         $scope.sheetData[$scope.editCell]=$scope.editBackup;
       }
@@ -210,7 +218,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
     }
   };
   $scope.onCellSelect=function(col, row, $event){
-    console.log("onCellSelect: "+(""+col+""+row));
+    //console.log("onCellSelect: "+(""+col+""+row));
     var newSel=(""+col+""+row);
     var dblClick=($scope.lastSelTimeStamp && ($event.timeStamp-$scope.lastSelTimeStamp)<250 && $scope.selectedCell==newSel);
     $scope.selectedCell=newSel;
@@ -221,7 +229,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
         $scope.editCell=$scope.selectedCell;
         // requeue
         $timeout(function(){
-          console.log("Inserting text");
+          //console.log("Inserting text");
           $window.document.getElementsByName($scope.editCell)[0].focus();
         }, 1);
       }else{
@@ -230,7 +238,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
     }
   };
   $scope.onEditCellBlur=function(col, row){
-    console.log("onEditCellBlur: "+(""+col+""+row));
+    //console.log("onEditCellBlur: "+(""+col+""+row));
     if($scope.editCell==(""+col+""+row)){
       confirmEdit();
     }
@@ -247,12 +255,14 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
     }
   };
   function navigateToSel(){
-    var sel=$scope.selectedCell; // TODO: rather prevent two timeouts via $scope.timeoutRunning?
+    if($scope.timeoutRunning){
+      return; // don't need two updates
+    }
+    $scope.timeoutRunning=true;
     $timeout(function(){
-      if(sel==$scope.selectedCell){
-        var elem=$window.document.getElementsByName($scope.selectedCell)[0];
-        smartScroll(elem);
-      }
+      $scope.timeoutRunning=false;
+      var elem=$window.document.getElementsByName($scope.selectedCell)[0];
+      smartScroll(elem);
     }, 500);
   };
   function focusTable(){
@@ -262,7 +272,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
     }, 1);
   };
   $scope.onTableKeyDown=function($event){
-    console.log("onTableKeyDown: "+$event.keyCode);
+    //console.log("onTableKeyDown: "+$event.keyCode);
     if($event.keyCode===27){
       // ESC (reset)
       discardEdit();
@@ -309,7 +319,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
     }
   };
   $scope.onTableKeyPress=function($event){
-    console.log("onTableKeyPress: "+$event.keyCode);
+    //console.log("onTableKeyPress: "+$event.keyCode);
     if($event.keyCode===13 || $event.keyCode===9){
       // do nothing except confirm
       $event.preventDefault();
@@ -320,14 +330,14 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
       $event.preventDefault();
       // requeue
       $timeout(function(){
-        console.log("Inserting text");
+        //console.log("Inserting text");
         $window.document.getElementsByName($scope.editCell)[0].focus();
         $window.document.execCommand("insertText", false, String.fromCharCode($event.keyCode));
       }, 1);
     }
   };
   $scope.addRow=function($event){
-    console.log("addRow");
+    //console.log("addRow");
     $scope.sheetRows.push($scope.sheetRows.length+1);
     // requeue
     $timeout(function(){
@@ -335,7 +345,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
     }, 1);
   };
   $scope.addCol=function($event){
-    console.log("addCol");
+    //console.log("addCol");
     $scope.sheetCols.push(numToCol($scope.sheetCols.length));
     // requeue
     $timeout(function(){

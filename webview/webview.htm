@@ -20,12 +20,16 @@
       font-family: sans-serif;
       -webkit-text-size-adjust: none;
     }
-    #topdiv {
+    #topdiv, #errordiv {
       position: absolute; 
       padding: 8px; 
       top: 0;
       left: 0; 
       right: 0;
+    }
+    #errordiv {
+      color: white; 
+      background-color: red;
     }
     #topdiv button {
       margin-left: 10px; 
@@ -121,6 +125,7 @@
 </head>
 <body ng-controller="SheetController">
   <div id="topdiv">Filter: <input type="search" ng-model="filter" ng-change="onFilter()" style="width: 40%; min-width: 50px; max-width: 200px; " /><button ng-click="onChangePrompt()">Change cell</button><a class="down" ng-click="onScrollBottom()">|<br />v</a></div>
+  <div id="errordiv" ng-if="!!errorMessage">{{errorMessage}}</div>
   <div id="maindiv">
     <table class="spreadsheet" rules="all" tabindex="0" ng-keydown="onTableKeyDown($event)" ng-keypress="onTableKeyPress($event)">
       <tr>

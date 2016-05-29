@@ -37,6 +37,7 @@ describe("SheetController base suite", function() {
     $httpBackend.flush();
     expect($scope.sheetCols.length).toEqual(3);
     expect($scope.sheetRows.length).toEqual(4);
+    expect($scope.filteredRows.length).toEqual(4);
   });
   it("has A1 Headline TODO-Liste 05/2014", function() {
     $httpBackend.expectGET('../../../../../_session?basic=true');
@@ -144,11 +145,12 @@ describe("SheetController base suite", function() {
       $scope.onCellSelect("B", 2, ev);
       expect($scope.selectedCell).toBe("B2");
     });
-    it("Changes cell based on cursor keys", function(){
+    it("Changes cell based on cursor keys considering filter", function(){
       createController();
       $scope.selectedCell="D5";
       $scope.sheetCols=["A", "B", "C", "D", "E"];
       $scope.sheetRows=[1, 2, 3, 4, 5, 6, 7];
+      $scope.filteredRows=$scope.sheetRows.filter(function(r){return r!=4});
       var ev={
         "preventDefault": function(){}
       };
@@ -164,16 +166,16 @@ describe("SheetController base suite", function() {
       ev.keyCode=38; // up arrow
       $scope.onTableKeyDown(ev);
       expect(ev.preventDefault).toHaveBeenCalled();
-      expect($scope.selectedCell).toBe("C4");
+      expect($scope.selectedCell).toBe("C3");
       expect(scrolled.length).toBe(2);
-      expect(scrolled[1]).toBe("C4");
+      expect(scrolled[1]).toBe("C3");
       ev.preventDefault.calls.reset();
       ev.keyCode=39; // right arrow
       $scope.onTableKeyDown(ev);
       expect(ev.preventDefault).toHaveBeenCalled();
-      expect($scope.selectedCell).toBe("D4");
+      expect($scope.selectedCell).toBe("D3");
       expect(scrolled.length).toBe(3);
-      expect(scrolled[2]).toBe("D4");
+      expect(scrolled[2]).toBe("D3");
       ev.preventDefault.calls.reset();
       ev.keyCode=40; // down arrow
       $scope.onTableKeyDown(ev);
@@ -187,6 +189,7 @@ describe("SheetController base suite", function() {
       $scope.selectedCell="D5";
       $scope.sheetCols=["A", "B", "C", "D", "E"];
       $scope.sheetRows=[1, 2, 3, 4, 5, 6, 7];
+      $scope.filteredRows=$scope.sheetRows;
       var ev={
         "preventDefault": function(){}
       };
@@ -336,6 +339,7 @@ describe("SheetController base suite", function() {
       $scope.sheetName="Tabelle1";
       $scope.sheetCols=["A", "B", "C", "D", "E"];
       $scope.sheetRows=[1, 2, 3, 4, 5, 6];
+      $scope.filteredRows=$scope.sheetRows;
       var ev={
         "keyCode": 13, // ENTER
         "preventDefault": function(){}
@@ -357,6 +361,7 @@ describe("SheetController base suite", function() {
       $scope.sheetName="Tabelle1";
       $scope.sheetCols=["A", "B", "C", "D", "E"];
       $scope.sheetRows=[1, 2, 3, 4, 5, 6];
+      $scope.filteredRows=$scope.sheetRows;
       var ev={
         "keyCode": 9, // TAB
         "preventDefault": function(){}

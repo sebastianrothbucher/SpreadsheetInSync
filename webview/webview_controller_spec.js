@@ -12,7 +12,7 @@
    the License. 
 */
 describe("SheetController base suite", function() {
-  var $httpBackend, $scope, $timeout, $window={}, createController;
+  var $httpBackend, $scope, $timeout, $window={}, time={}, createController;
   beforeEach(module('theplugin'));
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
@@ -24,9 +24,19 @@ describe("SheetController base suite", function() {
     $scope.noPoll=true;
     $scope.pollLimit=0;
     $timeout=function(){};
+    var remTime=10000;
+    time.now=function(){
+      var res=remTime;
+      remTime+=500;
+      return res;
+    };
+    time.peek=function(){
+      // (testing only)
+      return remTime;
+    };
     var $controller = $injector.get('$controller');
     createController = function() {
-      return $controller('SheetController', {'$scope' : $scope, '$window': $window, '$timeout': $timeout});
+      return $controller('SheetController', {'$scope' : $scope, '$window': $window, '$timeout': $timeout, 'time': time});
     };
   }));
   it("contains cell A1 to C4", function() {
@@ -56,23 +66,34 @@ describe("SheetController base suite", function() {
     expect($scope.sheetData["C4"]).toEqual("15.06.14");
   });
   it("updates and shows updates", function() {
-    $httpBackend.when('GET', '../../../../_changes?since=4&feed=longpoll&include_docs=true').respond({"results":[
-{"id":"Tabelle1.C3","doc":{"_id":"Tabelle1.C3","_rev":"3-12dbf56a04a6f940e9886fd0a7730c8b","type":"TEXT","value":"test","user":""}}], "last_seq": 5});
     $httpBackend.expectGET('../../../../../_session?basic=true');
     $httpBackend.expectGET('../../../../_changes?since=0&feed=longpoll&include_docs=true');
-    $httpBackend.expectGET('../../../../_changes?since=4&feed=longpoll&include_docs=true');
     $scope.noPoll=false;
     $scope.pollLimit=1;
-    var cb;
-    $timeout=function(cb_, to_){
-      cb=cb_;
+    var cb=[], tout=[];
+    $timeout=function(cb_, tout_){
+      cb.push(cb_);
+      tout.push(tout_);
     };
     createController();
+    $httpBackend.flush();
+    // first timeout: focus table
+    // second timeout: updated cells (that never come)
+    // thrid timeout: remaining wait time to next poll
+    $httpBackend.when('GET', '../../../../_changes?since=4&feed=longpoll&include_docs=true').respond({"results":[
+{"id":"Tabelle1.C3","doc":{"_id":"Tabelle1.C3","_rev":"3-12dbf56a04a6f940e9886fd0a7730c8b","type":"TEXT","value":"test","user":""}}], "last_seq": 5});
+    expect(tout[2]).toBe(3500);
+    expect(time.peek()).toBe(11000); // called two times
+    $httpBackend.expectGET('../../../../_changes?since=4&feed=longpoll&include_docs=true');
+    cb[2]();
     $httpBackend.flush();
     expect($scope.sheetData["C3"]).toEqual("test");
     expect($scope.updatedCells.length).toEqual(1);
     expect($scope.updatedCells[0]).toEqual("C3");
-    cb();
+    expect(time.peek()).toBe(11500); // called three times
+    // forth timeout: clear updated cells
+    expect(tout[3]>0).toBeTruthy();
+    cb[3]();
     expect($scope.updatedCells.length).toEqual(0);
   });
   it("Performs filter based on any cell with filter as part", function(){
@@ -257,7 +278,7 @@ describe("SheetController base suite", function() {
       };
       $window.document = {
         "getElementsByName": function(n_){
-          if("D5"==n_){
+          if("D5_edit"==n_){
             return [
               {
                 "focus": function(){

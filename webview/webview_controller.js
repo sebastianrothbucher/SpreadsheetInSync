@@ -11,7 +11,13 @@
    License for the specific language governing permissions and limitations under
    the License. 
 */
-angular.module("theplugin", []).controller("SheetController", function($scope, $http, $timeout, $window){
+angular.module("theplugin", []).factory("time", function(){
+  return {
+    "now": function(){
+      return (new Date()).getTime();
+    }
+  };
+}).controller("SheetController", function($scope, $http, $timeout, $window, time){
   $scope.userName=null;
   $scope.prevSince=0;
   $scope.sheets=[];
@@ -63,6 +69,7 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
   };
   function pollForChanges(){
     //console.log($scope.prevSince);
+    var startTime=time.now();
     $http({method: "GET", url: "../../../../_changes?since="+$scope.prevSince+"&feed=longpoll&include_docs=true"})
       .success(function(data, status){ 
         var rows=data.results;
@@ -106,7 +113,9 @@ angular.module("theplugin", []).controller("SheetController", function($scope, $
           }
         }, 2500);
         if($scope.pollLimit == undefined || (($scope.pollLimit--) > 0)){ // enable testing
-          pollForChanges();
+          // make sure we poll max. 15 times a minute (all 4s); the re-queue won't hurt
+          var remainingTime=Math.max(0, 4000-(time.now()-startTime));
+          $timeout(pollForChanges, remainingTime);
         }
       }).error(function(data, status){
         if(status!=0){

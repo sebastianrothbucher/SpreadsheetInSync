@@ -3,6 +3,6 @@
   "_rev": "2-bb4fea90f7720ee1e171e8223163f131",
   "language": "javascript",
   "shows": {
-    "htmlout": "function(doc, req){return doc.html;}"
+    "htmlout": "function(doc, req){return {headers: {'Content-type': doc.type}, body: doc.html};}"
   }
 }

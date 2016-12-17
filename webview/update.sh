@@ -14,7 +14,7 @@ if [ ! $1 ]; then echo "No target DB URL"; exit 1; fi
 SHOWVERSION=$(curl -X GET $1/_design/showfkt | node -e 'var dt=""; process.stdin.on("data", function (data){dt+=data;}).on("end", function(){console.log(JSON.parse(dt)["_rev"]);});')
 node -e 'var fs=require("fs"); fs.readFile("showfkt.json", "utf-8", function(err, data){var dt=JSON.parse(data); delete dt["_rev"]; console.log(JSON.stringify(dt));});' | curl -X PUT $1/_design/showfkt?rev=$SHOWVERSION -d @-
 VIEWVERSION=$(curl -X GET $1/webview | node -e 'var dt=""; process.stdin.on("data", function (data){dt+=data;}).on("end", function(){console.log(JSON.parse(dt)["_rev"]);});')
-node -e 'var fs=require("fs"); fs.readFile("webview.htm", "utf-8", function(err, data){console.log(JSON.stringify({"html": data}));});' | curl -X PUT $1/webview?rev=$VIEWVERSION -d @-
+node -e 'var fs=require("fs"); fs.readFile("webview.htm", "utf-8", function(err, data){console.log(JSON.stringify({"html": data, "type": "text/html"}));});' | curl -X PUT $1/webview?rev=$VIEWVERSION -d @-
 CTRLVERSION=$(curl -X GET $1/webview_controller | node -e 'var dt=""; process.stdin.on("data", function (data){dt+=data;}).on("end", function(){console.log(JSON.parse(dt)["_rev"]);});')
-node -e 'var fs=require("fs"); fs.readFile("webview_controller.js", "utf-8", function(err, data){console.log(JSON.stringify({"html": data}));});' | curl -X PUT $1/webview_controller?rev=$CTRLVERSION -d @-
+node -e 'var fs=require("fs"); fs.readFile("webview_controller.js", "utf-8", function(err, data){console.log(JSON.stringify({"html": data, "type": "text/javascript"}));});' | curl -X PUT $1/webview_controller?rev=$CTRLVERSION -d @-
 

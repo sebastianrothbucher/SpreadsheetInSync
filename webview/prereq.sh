@@ -26,12 +26,5 @@ if [ ! -f angular/angular-mocks.js ]; then
 	echo "need angular/angular-mocks.js"
 	curl -X GET -o angular/angular-mocks.js https://code.angularjs.org/1.2.15/angular-mocks.js
 fi
-if [ ! -d jasmine ]; then
-	mkdir jasmine
-fi
-if [ ! -f jasmine/jasmine-standalone.zip ]; then
-	echo "need jasmine-standalone.zip"
-	curl -X GET -L -o jasmine/jasmine-standalone.zip https://github.com/jasmine/jasmine/releases/download/v2.0.0/jasmine-standalone-2.0.0.zip
-        unzip jasmine/jasmine-standalone -d jasmine/
-fi
+npm install
 

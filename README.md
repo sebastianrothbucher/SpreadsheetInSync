@@ -1,8 +1,8 @@
 # SpreadsheetInSync
-Real-time collaboration in/between two spreadsheet applications (OpenOffice.org Calc) plus web interface to work with the spreadsheet in your browser. Runs with CouchDB (or Cloudant). You keep working in the application you know, and you keep your files - but you have team sync in real time now! Essentially, the plugin synchronizes spreadsheets in real-time.
+Real-time collaboration in/between two spreadsheet applications (Libreoffice Calc / OpenOffice.org Calc) plus web interface to work with the spreadsheet in your browser. Runs with CouchDB (or Cloudant). You keep working in the application you know, and you keep your files - but you have team sync in real time now! Essentially, the plugin synchronizes spreadsheets in real-time.
 
 ## What can you do with it?
-The plugin (for OpenOffice.org Calc) allows parallel work on a spreadsheet with copies simultanously open on several computers. Whatever structure and setup you need to get the job done, you're free to do it!
+The plugin (for Libreoffice Calc / OpenOffice.org Calc) allows parallel work on a spreadsheet with copies simultanously open on several computers. Whatever structure and setup you need to get the job done, you're free to do it!
 
 With the plugin, everyone will see every change instantly and is always up to date. As you keep using files, you always have all the info with you - also to work offline and sync back when you have network connection. 
 
@@ -37,7 +37,7 @@ and, off course:
 (and certainly a lot more)
 
 ## How it works
-Basically, there is a plugin extending the OpenOffice.org Calc that you have. The plugin listens for changes to cells and sends them up to a hub database. Either at once or when you re-connect and recheck/resync the sheet.
+Basically, there is a plugin extending the Libreoffice Calc / OpenOffice.org Calc that you have. The plugin listens for changes to cells and sends them up to a hub database. Either at once or when you re-connect and recheck/resync the sheet.
 
 So here's the steps: 
 
@@ -55,11 +55,13 @@ Bob and Chris have their copy of the file open with the plugin running...
 
 ## Installation and first steps
 
-### OpenOffice.org Calc (OOo)
+### Libreoffice Calc / OpenOffice.org Calc (OOo)
 First of all, you need a [CouchDB](http://couchdb.apache.org) installation on your machine, your network or the Internet. You can use [Cloudant](http://cloudant.com) but be sure you understand their mechanics of charging - there's limits to what you get for free that also might change. Create a new and empty database in either case to hold your data.
 
-Then, download 'SpreadsheetInSync.oxt' from [Releases](https://github.com/sebastianrothbucher/SpreadsheetInSync/releases) and double-click to install into the Extension Manager. For every spreadsheet file you create or open after that, you have a 'SpreadsheetInSync' menu below Tools > Add-ons (or Extras > Add-ons for e.g. the German localization). Here's how it looks like (w/ German OOo): 
+Then, download 'SpreadsheetInSync.oxt' from [Releases](https://github.com/sebastianrothbucher/SpreadsheetInSync/releases) and double-click to install into the Extension Manager (do not rename the file). Restart Libreoffice / OpenOffice.org. For every spreadsheet file you create or open after that, you have a 'SpreadsheetInSync' menu below Tools > Add-ons (or Extras > Add-ons for e.g. the German localization). Here's how it looks like (w/ German OOo): 
 <img src="files/screen_ooo.png" />
+
+Note: at least Libreoffice on Mac asks for a missing JDK or JRE when starting with the plugin installed. You can cancel this as Java is not required - it's a glitch, but a harmless one. 
 
 Then, choose SpreadsheetInSync > Start. As it's the first time, it will prompt for the database details. Give server name (for Cloudant: 'yourname'.cloudant.com), port (standard for HTTP w/out SSL is 80, standard for HTTPS w/ SSL - the recommended way - is 443) and the name of the database you just created. 
 
@@ -111,7 +113,7 @@ This will download all libraries needed (happens only once) and then upload all 
 ```
 http://couch.local:80/mysheet/_design/showfkt/_show/htmlout/webview
 ```
-(There's also a menu item in OpenOffice.org Calc that gives you the Web view URL copy&paste-ready)
+(There's also a menu item in Libreoffice Calc / OpenOffice.org Calc that gives you the Web view URL copy&paste-ready)
 
 ### Installing via install DB
 To give users a somewhat more convenient way to install the Web view: create a database named 'webview_install' and install the Web view there as described above (don't actually use this DB as a hub DB). Then, choose SpreadsheetInSync > Webview > Install Webview from the menu
@@ -135,13 +137,15 @@ This feature allows you to install an iCal stream to the Hub database. Essential
 ### Chat
 Opens a window where all OOo users can chat. Just enter your line at the bottom and see what others are writing.
 
-### asana connect (experimental!)
+### asana connect (experimental! & currently not in the menu)
 It's a quite exprimental (and UI-wise also not very elaborate) feature. Give columns for subject, notes, due date, id, etc. and get all asana tasks (with a certain tag) synced in. Other than CSV import, updates are rather convenient. 
 
 It needs an API key of asana and stores it into your user profile folder. If you get queasy about having such a key around: generate a new one in asana (which voids the saved/old one).
 
 ## Known limitations / things 2 keep in mind
 (although you're using it at your own risk anyway; please also read through the LICENSE for all details)
+- Libreoffice / poss. also OpenOffice.org asks for JDK or JRE - can be ignored (at least the case on Mac)
+- the menu is scrambled (at least the case on Mac)
 - requires a recheck of the sheet after inserting / deleting rows or colums
 - generally, a regular recheck of the sheet makes sense
 - currenly uses the WinHttp COM libraries - hence runs on Windows systems only

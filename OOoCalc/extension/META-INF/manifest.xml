@@ -15,5 +15,6 @@
 <!DOCTYPE manifest:manifest PUBLIC "-//OpenOffice.org//DTD Manifest 1.0//EN" "Manifest.dtd">
 <manifest:manifest xmlns:manifest="http://openoffice.org/2001/manifest">
 	<manifest:file-entry manifest:full-path="Rangereplication/" manifest:media-type="application/vnd.sun.star.basic-library"/>
+	<manifest:file-entry manifest:full-path="Scripts/" manifest:media-type="application/vnd.sun.star.framework-script"/>
 	<manifest:file-entry manifest:full-path="AddonUI.xcu" manifest:media-type="application/vnd.sun.star.configuration-data"/>
 </manifest:manifest>

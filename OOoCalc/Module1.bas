@@ -1465,7 +1465,7 @@ sub show_webview_addr
 	InputBox "Address of the webview: ", "webview", "http://" & oGlobalShadow.getCellRangeByName("A2").getCellByPosition(0, 0).String & ":" & oGlobalShadow.getCellRangeByName("A3").getCellByPosition(0, 0).String & "/" & oGlobalShadow.getCellRangeByName("A4").getCellByPosition(0, 0).String & "/_design/showfkt/_show/htmlout/webview"
 end sub
 
-sub asana_connect
+sub asana_connect_EXPERIMENT
 	dim sRes, sApikey, sTag, sTagId, sIdCol, sNameCol, sNotesCol, sDueCol, sParentCol
 	dim iPos, iPos2, iPosPart, iRow, sId, sVal
 	dim oSheet, oCursor, iCntRows, i, iFileNum
@@ -1688,14 +1688,31 @@ function base64(byval val)
 end function
 
 
-'http methods from
-'http://www.oooforum.org/forum/viewtopic.phtml?t=17645
-'and
-'http://www.oooforum.org/forum/viewtopic.phtml?p=26353
+' finally for good: call python which is bundled with libreoffice/OOo all the time and can do HTTPS (at least on mac, it does not verify certs and display a pointless warning about JRE that can be ignored)
+function obtainViaHttp(byval host, byval port, byval path, byval method, byval contentType, byval content, byval user, byval password, byval ssl)
+	'just call python, clng port (and package python in the lib - no matter the warning)	
+	'as in https://ask.libreoffice.org/en/question/52125/execute-a-python-macro-function-from-base-and-return-value-to-base/
+	dim scpr, scmod, res
+	dim a(8), b(0), c(0) as variant 
+	' host, port, path, method='GET', contentType=None, content=None, user=None, password=None, ssl=False
+    a(0)=host
+    a(1)=clng(port)
+    a(2)=path
+    a(3)=method
+    a(4)=contentType
+    a(5)=content
+    a(6)=user
+    a(7)=password
+    a(8)=ssl
+	scpr=thisComponent.getScriptProvider
+	scmod = scpr.getScript("vnd.sun.star.script:SpreadsheetInSync.oxt|Scripts|httpclient.py$httpclient?language=Python&location=user:uno_packages")
+	res=scmod.invoke(a, b, c)
+	rem msgbox res
+	obtainViaHttp=res
+end function
 
 ' chunked and apache is killing us right now - so use WinHTTP as fallback until we find a real solution or go to python anyway
-
-function obtainViaHttp(byval host, byval port, byval path, byval method, byval contentType, byval content, byval user, byval password, byval ssl)
+function obtainViaHttp_WINHTTP_OLD(byval host, byval port, byval path, byval method, byval contentType, byval content, byval user, byval password, byval ssl)
 	dim oConnection, bReuseConnection, sConnectionUrl, iConnectionIndex, i
 	dim sReq, sXCouchId, sXCouchUpdateNewRev, sHttpRes, sHeaders, nXPos
 	dim cCR, cLF
@@ -1776,7 +1793,11 @@ function obtainViaHttp(byval host, byval port, byval path, byval method, byval c
 end function
 
 
-function obtainViaHttp_OLD(byval host, byval port, byval path, byval method, byval contentType, byval content, byval user, byval password)
+'http methods from
+'http://www.oooforum.org/forum/viewtopic.phtml?t=17645
+'and
+'http://www.oooforum.org/forum/viewtopic.phtml?p=26353
+function obtainViaHttp_PLAINSOCK_OLD(byval host, byval port, byval path, byval method, byval contentType, byval content, byval user, byval password)
 	dim oConnector, oConnection
 	dim aByteArray, nBytesRead, nHeaderPos, nXPos
 	dim cCR, cLF
@@ -1855,6 +1876,7 @@ end function
 
 
 ' see http://www.oooforum.de/viewtopic.php?t=19054 and links there
+
 '---------------------------------------- 
 '   Stuff ripped out of my library 
 '---------------------------------------- 
